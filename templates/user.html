@@ -1,0 +1,30 @@
+{% extends "base.html"}
+{% block title %}{{user.username}}{% endblock}
+{% block content %}
+<h1>{{user.username}}</h1>
+<p>Name: {{user.first_name}} {{user.last_name}}</p>
+<p>Email: {{user.email}}</p>
+<h2>Feedbacks</h2>
+<ul>
+    {% for item in feedback %}
+    <li><p>Title: {{item.title}}</p>
+    <p>Content: {{item.content}}</p>
+    {% if user.id == session["user_id"] %}
+    <form action = "/feedback/{{feedback.id}}/update" method = "POST">
+        <button type = submit>Edit</button>
+    </form>
+    <form action = "/feedback/{{feedback.id}}/delete" method = "POST">
+        <button type = submit>Delete</button>
+    </form>
+    {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% if user.id == session["user_id"] %}
+<form action = "/users/{{user.username}}/delete" method = "POST">
+    <button type = submit>Delete User</button>
+</form>
+{% endif %}
+
+
+{% endblock %}
